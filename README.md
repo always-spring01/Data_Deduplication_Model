@@ -10,6 +10,16 @@
 Kookmin Univ.
 </div>
 
+<div align=center> <h3><b>🛠️Tools🛠️</b></h3> </div>
+<div align=center>
+<img src="https://img.shields.io/badge/python-3776AB?style=flat&logo=python&logoColor=white">
+<img src="https://img.shields.io/badge/Anaconda-44A833?style=flat&logo=anaconda&logoColor=white">
+<img src="https://img.shields.io/badge/scikitlearn-F7931E?style=flat&logo=scikitlearn&logoColor=white">
+<img src="https://img.shields.io/badge/pytorch-EE4C2C?style=flat&logo=pytorch&logoColor=white">
+<img src="https://img.shields.io/badge/pandas-150458?style=flat&logo=pandas&logoColor=white">
+<img src="https://img.shields.io/badge/numpy-013243?style=flat&logo=numpy&logoColor=white">
+</div>
+
 ### 목적
 패킷 데이터의 악성 유무를 분석하는 정오탐 분석기는 다량의 네트워크 패킷 데이터를 통해 학습한다. 하지만, 이 과정에서 데이터의 수가 방대하여 학습하는 데 소요되는 시간이 높아지고 다량의 데이터의 편향이 동반되는 문제점이 생긴다. 이를 해결하기 위해 효율적으로 각 패킷 데이터의 유사도를 기반으로 중복성 제거를 제안한다.
 
