@@ -56,3 +56,44 @@ Label의 경우 0과 1로 이루어져 있으며 0은 오탐으로 정상 패킷
 |A.csv|1,118,257|894,605|223,652|
 |B.csv|2,336,672|1,869,338|467,334|
 
+### 데이터 벡터화
+중복성 제거를 하기 위해서는 16진수로 이루어진 Payload 부분을 벡터로 변환할 필요가 있다.
+
+본 모델은 비교적 간단하고 적은 차원으로 구성할 수 있는 ASCII 벡터로 데이터를 변환하였다. 그 이유로는, 이후 진행할 유사도 비교에서 차원 수가 많을수록 구동 시간이 오래걸리는 문제가 있었기 때문이다. 반대로, 차원 수가 너무 적으면 다른 Payload가 하나의 쌍으로 묶이는 문제가 발생한다.
+
+ASCII 벡터란, 256개의 ASCII 문자 (0~255)의 개수를 기록한 벡터를 의미하며, 16진수로 이루어진 Payload는 2개의 문자를 10진수로 변환하고, 이를 ASCII 문자로 변환할 수 있다. 코드는 아래와 같다.
+```python
+def payload_to_vector(payloads : list) -> list:
+    ans = []
+    for payload in payloads:
+        result = [0 for _ in range(256)]
+        for i in range(0, len(payload), 2):
+            result[int(payload[i:i+2], 16)] += 1
+        ans.append(result)
+    return ans
+```
+
+위 코드를 통해 기존 데이터셋의 Payload를 ASCII 빈도 벡터로 변환한 다음, 이 벡터 사이의 유사도를 기반으로 클러스터링을 시행하였다.
+
+### 클러스터링
+클러스터링이란, 유사한 벡터를 하나의 클러스터(군집)으로 변환하는 작업을 의미한다. 해당 모델에서는 앞서 추출한 벡터를 **코사인 유사도**를 기반으로 클러스터링한다. **코사인 유사도**는 두 벡터의 방향을 이용해 유사도를 비교하는 방법으로 비교적 간단한 연산을 통해 계산할 수 있다는 특징이 있다.
+
+클러스터링 알고리즘을 간략하게 서술하면 아래의 단계를 거친다.
+```python
+clusters = []
+while (클러스터링 되지 않은 데이터):
+    pivot = 최상단 row
+    cluster = [pivot, ]
+    for data in (클러스터링 되지 않은 데이터):
+        if cosSim(pivot, data) >= r:
+            cluster.append(data)
+        else:
+            continue
+    (클러스터링 되지 않은 데이터).drop(for data.index in clusters)
+    cluster.append(clusters)
+```
+코사인 유사도를 Python 코드로 풀이하면 아래와 같다.
+```python
+def cosSim(x : list, y : list) -> float:
+    return dot(x, y)/(norm(x)*norm(y))
+```
