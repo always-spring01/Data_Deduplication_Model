@@ -1,1 +1,4 @@
-01_Dataset
+*.parquet
+*.csv
+*.pyc
+*.zip
